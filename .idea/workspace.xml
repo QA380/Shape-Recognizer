@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cb6b51a3-9203-4309-931a-687c753a6296" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="148" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/QA380/Shape-Recognizer",
+    "accountId": "64749373-0580-4f02-a9ca-4b6b9e204841"
+  }
+}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.9630885875758182" />
+      <entry key="MS500" value="5.224899445153584" />
+      <entry key="S2" value="13.15857822614696" />
+      <entry key="S5" value="18.396365065412475" />
+      <entry key="S10" value="20.91757302808643" />
+      <entry key="S30" value="22.901780791872607" />
+      <entry key="S60" value="23.460404517090627" />
+      <entry key="M2" value="23.96414087421108" />
+      <entry key="M5" value="25.41583060062828" />
+      <entry key="M10" value="27.727258656341323" />
+      <entry key="M15" value="29.44642593887258" />
+      <entry key="M30" value="32.254828823743736" />
+      <entry key="H1" value="34.30956919680201" />
+      <entry key="H2" value="35.56308243411722" />
+      <entry key="H4" value="36.25686770677942" />
+      <entry key="D1" value="36.87255792230951" />
+      <entry key="W1" value="36.9817039853387" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="2.7845031816073405E-168" />
+      <entry key="S5" value="9.503839368923143E-68" />
+      <entry key="S10" value="3.082829766452107E-34" />
+      <entry key="S30" value="6.755380997880966E-12" />
+      <entry key="S60" value="2.5991115785746793E-6" />
+      <entry key="M2" value="0.001612176038332875" />
+      <entry key="M5" value="0.07637742014173501" />
+      <entry key="M10" value="0.27636465067322763" />
+      <entry key="M15" value="0.4242823786135487" />
+      <entry key="M30" value="0.6513696175087912" />
+      <entry key="H1" value="0.807074728577714" />
+      <entry key="H2" value="0.898373379268172" />
+      <entry key="H4" value="0.9478256059361189" />
+      <entry key="D1" value="0.9911089687991717" />
+      <entry key="W1" value="0.9987249860544075" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.8494036106437024" />
+      <entry key="MS500" value="5.166067938665523" />
+      <entry key="S2" value="13.121499493404768" />
+      <entry key="S5" value="18.375369510867394" />
+      <entry key="S10" value="20.905568297851914" />
+      <entry key="S30" value="22.897381022397905" />
+      <entry key="S60" value="23.458145088342874" />
+      <entry key="M2" value="23.964503588198852" />
+      <entry key="M5" value="25.490384389545177" />
+      <entry key="M10" value="28.0008498025208" />
+      <entry key="M15" value="29.867890933686144" />
+      <entry key="M30" value="32.90401404778545" />
+      <entry key="H1" value="35.11527605022938" />
+      <entry key="H2" value="36.46068939028037" />
+      <entry key="H4" value="37.20428751860885" />
+      <entry key="D1" value="37.8635959418092" />
+      <entry key="W1" value="37.98041875209328" />
+    </decayedShown>
+  </component>
+  <component name="ProblemsViewState">
+    <hideBySeverity>
+      <option value="11" />
+      <option value="14" />
+      <option value="15" />
+      <option value="16" />
+      <option value="200" />
+    </hideBySeverity>
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3F5XeBk3nNywrQ6wRbMxZM9wQWW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.neuralnet.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/vince/Downloads/Project_Management/Shape-Recognizer&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-c59985aa861c-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.24374.152" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cb6b51a3-9203-4309-931a-687c753a6296" name="Changes" comment="" />
+      <created>1781365996228</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1781365996228</updated>
+      <workItem from="1781365997396" duration="1817000" />
+      <workItem from="1781368871324" duration="1048000" />
+      <workItem from="1781370082338" duration="311000" />
+      <workItem from="1781419046962" duration="4419000" />
+      <workItem from="1781431730123" duration="301000" />
+      <workItem from="1781432982165" duration="4371000" />
+      <workItem from="1781452432727" duration="3304000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Shape_Recognizer$neuralnet.coverage" NAME="neuralnet Coverage Results" MODIFIED="1781456177710" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
