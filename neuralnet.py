@@ -8,10 +8,9 @@ from PIL import Image, ImageDraw, ImageOps
 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import matplotlib.pyplot as plt
 
 # =======================================================
-# GUI DESIGN
+# GUI DESIGN CONFIGURATION
 # =======================================================
 BG_MAIN = "#111111"
 BG_PANEL = "#1a1a1a"
@@ -30,7 +29,7 @@ FONT_MONO = ("Consolas", 10, "bold")
 
 
 # =======================================================
-# Neural Network
+# NEURAL NETWORK ARCHITECTURE COMPONENT BLOCKS
 # =======================================================
 class Layer_Dense:
     def __init__(self, n_inputs, n_neurons):
@@ -134,16 +133,15 @@ class Optimizer_Adam:
 
 
 # =======================================================
-# DASHBOARD APPLICATION
+# DASHBOARD APPLICATION CORE INTERFACE
 # =======================================================
 class CNNMonitorDashboard:
     def __init__(self, root):
         self.root = root
-        self.root.title("Deep Learning Sandbox: Multi-Layer Architecture")
+        self.root.title("Deep Learning Sandbox: Multi-Layer Architecture Diagnostics")
         self.root.configure(bg=BG_MAIN)
-        self.root.geometry("1400x850")
+        self.root.geometry("1420x860")
 
-        self.device = "CPU (NumPy Vectorized)"
         self.train_dir = "training_data"
         if not os.path.exists(self.train_dir): os.makedirs(self.train_dir)
 
@@ -222,15 +220,27 @@ class CNNMonitorDashboard:
         self.info_board = tk.Frame(self.frame_predict, bg="#0a0a0a", bd=0, relief="flat")
         self.info_board.pack(fill="x", pady=5)
 
-        # FIXED WIDTHS HERE STOPS THE GUI ELEMENTS FROM RESIZING/JITTERING THE WINDOW
         self.lbl_shape = tk.Label(self.info_board, text="ArgMax Output: None", bg="#0a0a0a", fg=COLOR_BLUE,
                                   font=("Consolas", 12, "bold"), width=35, anchor="w")
         self.lbl_shape.pack(anchor="w", padx=10, pady=6)
-        self.lbl_conf = tk.Label(self.info_board, text="Softmax Distributions:\nUntrained Matrix", bg="#0a0a0a",
-                                 fg=TEXT_MAIN, font=FONT_MONO, justify="left", width=35, height=6, anchor="nw")
-        self.lbl_conf.pack(anchor="w", padx=10, pady=6)
 
-        self.btn_inspect = tk.Button(self.frame_predict, text="Isolate Layer-1 Conv Maps",
+        # DIAGNOSTIC ADDTION: Subplot matrix layout for Matrix Input Viewer & Dynamic Softmax Bars
+        self.fig_eval = Figure(figsize=(3.8, 2.3), dpi=95, facecolor=BG_PANEL)
+
+        self.ax_img = self.fig_eval.add_subplot(121, facecolor=BG_MAIN)
+        self.ax_img.set_title("Network Input (28x28)", fontsize=8, color=TEXT_MAIN)
+        self.ax_img.axis('off')
+        self.im_display = self.ax_img.imshow(np.zeros((28, 28)), cmap='gray', vmin=0, vmax=1)
+
+        self.ax_bar = self.fig_eval.add_subplot(122, facecolor=BG_MAIN)
+        self.ax_bar.set_title("Class Confidence", fontsize=8, color=TEXT_MAIN)
+        self.ax_bar.tick_params(colors=TEXT_MUTED, labelsize=7)
+        for spine in self.ax_bar.spines.values(): spine.set_color("#2d2d2d")
+
+        self.canvas_eval = FigureCanvasTkAgg(self.fig_eval, master=self.frame_predict)
+        self.canvas_eval.get_tk_widget().pack(fill="x", expand=True, pady=5)
+
+        self.btn_inspect = tk.Button(self.frame_predict, text="Isolate Layer-1 Weights Map",
                                      command=self.open_feature_inspector, state="disabled", bg=COLOR_BLUE, fg=BG_MAIN,
                                      font=("Helvetica", 10, "bold"), bd=0, pady=6)
         self.btn_inspect.pack(fill="x", pady=8)
@@ -239,7 +249,6 @@ class CNNMonitorDashboard:
         self.frame_monitor = tk.LabelFrame(self.root, text=" Extended Parameter Tuner & Telemetry ", bg=BG_PANEL,
                                            fg=TEXT_MAIN, font=FONT_TITLE, bd=1, relief="solid", padx=10, pady=10)
         self.frame_monitor.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
-
         self.frame_monitor.grid_columnconfigure(0, weight=1)
         self.frame_monitor.grid_columnconfigure(1, weight=1)
 
@@ -269,7 +278,6 @@ class CNNMonitorDashboard:
         self._init_charts()
 
     def _init_charts(self):
-        # 1. Loss & Accuracy Curve (Persistent Object References)
         self.fig_loss = Figure(figsize=(3.5, 2.2), dpi=90, facecolor=BG_PANEL)
         self.ax_loss = self.fig_loss.add_subplot(111, facecolor=BG_MAIN)
         self._format_ax(self.ax_loss, "Convergence Curve", "Epochs", "Magnitude")
@@ -279,18 +287,16 @@ class CNNMonitorDashboard:
         self.canvas_loss = FigureCanvasTkAgg(self.fig_loss, master=self.frame_monitor)
         self.canvas_loss.get_tk_widget().grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
-        # 2. Gradient Flow Plot (Persistent Object References)
         self.fig_grad = Figure(figsize=(3.5, 2.2), dpi=90, facecolor=BG_PANEL)
         self.ax_grad = self.fig_grad.add_subplot(111, facecolor=BG_MAIN)
         self._format_ax(self.ax_grad, "Gradient Flow (L2 Norm)", "Epochs", "||dW||")
-        self.line_g1, = self.ax_grad.plot([], [], color=COLOR_RED, alpha=0.8, label='L1 (Input)')
-        self.line_g2, = self.ax_grad.plot([], [], color=COLOR_PURPLE, alpha=0.8, label='L2 (Hidden)')
-        self.line_g3, = self.ax_grad.plot([], [], color=COLOR_GREEN, alpha=0.8, label='L3 (Output)')
+        self.line_g1, = self.ax_grad.plot([], [], color=COLOR_RED, alpha=0.8, label='L1')
+        self.line_g2, = self.ax_grad.plot([], [], color=COLOR_PURPLE, alpha=0.8, label='L2')
+        self.line_g3, = self.ax_grad.plot([], [], color=COLOR_GREEN, alpha=0.8, label='L3')
         self.ax_grad.legend(fontsize=6, loc='upper right', facecolor=BG_PANEL, edgecolor=BG_MAIN)
         self.canvas_grad = FigureCanvasTkAgg(self.fig_grad, master=self.frame_monitor)
         self.canvas_grad.get_tk_widget().grid(row=1, column=1, padx=5, pady=5, sticky="nsew")
 
-        # 3. Weight Distribution Histogram
         self.fig_hist = Figure(figsize=(3.5, 2.2), dpi=90, facecolor=BG_PANEL)
         self.ax_hist = self.fig_hist.add_subplot(111, facecolor=BG_MAIN)
         self._format_ax(self.ax_hist, "Weight Distribution (Layer 1)", "Value", "Density")
@@ -328,7 +334,10 @@ class CNNMonitorDashboard:
         self.draw_predict = ImageDraw.Draw(self.image_predict)
         self.predict_changed = False
         self.lbl_shape.config(text="ArgMax Output: None")
-        self.lbl_conf.config(text="Softmax Distributions:\nWaiting for input signals...")
+        self.im_display.set_data(np.zeros((28, 28)))
+        self.ax_bar.clear()
+        self.ax_bar.set_title("Class Confidence", fontsize=8, color=TEXT_MAIN)
+        self.canvas_eval.draw_idle()
 
     def update_data_counts(self):
         counts = {}
@@ -388,9 +397,9 @@ class CNNMonitorDashboard:
 
         self.ax_grad.clear()
         self._format_ax(self.ax_grad, "Gradient Flow (L2 Norm)", "Epochs", "||dW||")
-        self.line_g1, = self.ax_grad.plot([], [], color=COLOR_RED, alpha=0.8, label='L1 (Input)')
-        self.line_g2, = self.ax_grad.plot([], [], color=COLOR_PURPLE, alpha=0.8, label='L2 (Hidden)')
-        self.line_g3, = self.ax_grad.plot([], [], color=COLOR_GREEN, alpha=0.8, label='L3 (Output)')
+        self.line_g1, = self.ax_grad.plot([], [], color=COLOR_RED, alpha=0.8, label='L1')
+        self.line_g2, = self.ax_grad.plot([], [], color=COLOR_PURPLE, alpha=0.8, label='L2')
+        self.line_g3, = self.ax_grad.plot([], [], color=COLOR_GREEN, alpha=0.8, label='L3')
         self.ax_grad.legend(fontsize=6, loc='upper right', facecolor=BG_PANEL, edgecolor=BG_MAIN)
 
         self.ax_hist.clear()
@@ -450,7 +459,6 @@ class CNNMonitorDashboard:
 
             self.loss_activation = Activation_Softmax_Loss_CategoricalCrossentropy()
             self.optimizer = Optimizer_Adam(learning_rate=self.slider_lr.get())
-            self.start_clock = time.time()
 
         self.training_active = True
         self.btn_train.config(text="PAUSE OPTIMIZATION", bg=COLOR_RED)
@@ -460,8 +468,6 @@ class CNNMonitorDashboard:
         if not self.training_active: return
 
         epochs_chunk = 10
-
-        # Guard: If already finished before starting this step, exit out clean
         if len(self.loss_history) >= self.target_epochs:
             self.training_active = False
             self.is_trained = True
@@ -476,7 +482,7 @@ class CNNMonitorDashboard:
 
             self.optimizer.learning_rate = self.slider_lr.get()
 
-            # Forward Pass
+            # Forward pass
             self.dense1.forward(self.X_train)
             self.activation1.forward(self.dense1.output)
             self.dense2.forward(self.activation1.output)
@@ -486,7 +492,7 @@ class CNNMonitorDashboard:
             loss = self.loss_activation.forward(self.dense3.output, self.y_train)
             acc = np.mean(np.argmax(self.loss_activation.output, axis=1) == self.y_train)
 
-            # Backward Pass
+            # Backward pass
             self.loss_activation.backward(self.loss_activation.output, self.y_train)
             self.dense3.backward(self.loss_activation.dinputs)
             self.activation2.backward(self.dense3.dinputs)
@@ -494,50 +500,38 @@ class CNNMonitorDashboard:
             self.activation1.backward(self.dense2.dinputs)
             self.dense1.backward(self.activation1.dinputs)
 
-            # Optimize Parameters
+            # Optimize
             self.optimizer.pre_update_params()
             self.optimizer.update_params(self.dense1)
             self.optimizer.update_params(self.dense2)
             self.optimizer.update_params(self.dense3)
             self.optimizer.post_update_params()
 
-            # Append Metrics to Arrays
             self.loss_history.append(loss)
             self.accuracy_history.append(acc)
             self.grad_l1_history.append(np.linalg.norm(self.dense1.dweights))
             self.grad_l2_history.append(np.linalg.norm(self.dense2.dweights))
             self.grad_l3_history.append(np.linalg.norm(self.dense3.dweights))
 
-        # Check if this specific batch iteration finished the entire process
         if len(self.loss_history) >= self.target_epochs:
             self.training_active = False
             self.is_trained = True
             self.btn_train.config(text="OPTIMIZATION COMPLETE", bg=COLOR_BLUE)
             self.btn_inspect.config(state="normal")
 
-        # FIX: Send the absolute latest valid item from the recorded history
         last_recorded_idx = len(self.loss_history) - 1
         if last_recorded_idx >= 0:
-            self._update_telemetry_ui(
-                last_recorded_idx,
-                self.loss_history[-1],
-                self.accuracy_history[-1]
-            )
-
-        # Loop again if there are remaining steps
-        if self.training_active:
-            self.root.after(10, self.run_training_epoch_step)
+            self._update_telemetry_ui(last_recorded_idx, self.loss_history[-1], self.accuracy_history[-1])
 
         if self.training_active:
             self.root.after(10, self.run_training_epoch_step)
 
     def _update_telemetry_ui(self, epoch, loss, acc):
         self.lbl_telemetry.config(
-            text=f"Epoch         : {epoch + 1}/{self.target_epochs}\nLoss          : {loss:.4f}\nAccuracy      : {acc * 100:.1f}%\nLearning Rate : {self.optimizer.current_learning_rate:.4f}")
+            text=f"Epoch: {epoch + 1}/{self.target_epochs}\nLoss: {loss:.6f}\nAccuracy : {acc * 100:.1f}%\nLearning Rate: {self.optimizer.current_learning_rate:.4f}")
 
         epochs_range = np.arange(len(self.loss_history))
 
-        # Non-destructive plot updating removes the flickering effects completely
         self.line_loss.set_data(epochs_range, self.loss_history)
         self.line_acc.set_data(epochs_range, self.accuracy_history)
         self.ax_loss.relim()
@@ -558,10 +552,15 @@ class CNNMonitorDashboard:
         self.canvas_hist.draw_idle()
 
     def continuous_predict(self):
+        img_features = self.process_image_for_cnn(self.image_predict)
+
+        # DIAGNOSTIC UPDATE: Live update the 28x28 grayscale heatmap so the user sees what the model receives
+        self.im_display.set_data(img_features[0])
+        self.canvas_eval.draw_idle()
+
         if self.is_trained and hasattr(self, 'dense1') and self.predict_changed:
             self.predict_changed = False
 
-            img_features = self.process_image_for_cnn(self.image_predict)
             if np.sum(img_features) > 0.5:
                 X_input = img_features.reshape(1, -1)
 
@@ -576,9 +575,20 @@ class CNNMonitorDashboard:
                 conf_list = sorted(zip(self.classes_, probs), key=lambda x: x[1], reverse=True)
 
                 self.lbl_shape.config(text=f"ArgMax Output: {conf_list[0][0].upper()}")
-                conf_text = "Softmax Distributions:\n" + "".join(
-                    [f" - {n.capitalize()}: {p * 100:.1f}%\n" for n, p in conf_list])
-                self.lbl_conf.config(text=conf_text)
+
+                # DIAGNOSTIC UPDATE: Replot horizontal bars matching current probability states
+                self.ax_bar.clear()
+                self.ax_bar.set_title("Class Confidence", fontsize=8, color=TEXT_MAIN)
+                self.ax_bar.tick_params(colors=TEXT_MUTED, labelsize=7)
+                for spine in self.ax_bar.spines.values(): spine.set_color("#2d2d2d")
+
+                y_pos = np.arange(len(self.classes_))
+                self.ax_bar.barh(y_pos, probs * 100, color=COLOR_BLUE, height=0.5)
+                self.ax_bar.set_yticks(y_pos)
+                self.ax_bar.set_yticklabels([c.capitalize() for c in self.classes_], color=TEXT_MAIN)
+                self.ax_bar.set_xlim(0, 100)
+                self.ax_bar.grid(True, linestyle='--', color="#2d2d2d", alpha=0.3)
+                self.canvas_eval.draw_idle()
 
         self.root.after(40, self.continuous_predict)
 
