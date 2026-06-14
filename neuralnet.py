@@ -460,22 +460,23 @@ class CNNMonitorDashboard:
         if not self.training_active: return
 
         epochs_chunk = 10
-        loss, acc = 0.0, 0.0
-        current_epoch_idx = len(self.loss_history)
 
-        # Process a small batch block to optimize processing throughput
+        # Guard: If already finished before starting this step, exit out clean
+        if len(self.loss_history) >= self.target_epochs:
+            self.training_active = False
+            self.is_trained = True
+            self.btn_train.config(text="OPTIMIZATION COMPLETE", bg=COLOR_BLUE)
+            self.btn_inspect.config(state="normal")
+            return
+
         for _ in range(epochs_chunk):
             current_epoch_idx = len(self.loss_history)
             if current_epoch_idx >= self.target_epochs:
-                self.training_active = False
-                self.is_trained = True
-                self.btn_train.config(text="OPTIMIZATION COMPLETE", bg=COLOR_BLUE)
-                self.btn_inspect.config(state="normal")
                 break
 
             self.optimizer.learning_rate = self.slider_lr.get()
 
-            # Forward
+            # Forward Pass
             self.dense1.forward(self.X_train)
             self.activation1.forward(self.dense1.output)
             self.dense2.forward(self.activation1.output)
@@ -485,7 +486,7 @@ class CNNMonitorDashboard:
             loss = self.loss_activation.forward(self.dense3.output, self.y_train)
             acc = np.mean(np.argmax(self.loss_activation.output, axis=1) == self.y_train)
 
-            # Backward
+            # Backward Pass
             self.loss_activation.backward(self.loss_activation.output, self.y_train)
             self.dense3.backward(self.loss_activation.dinputs)
             self.activation2.backward(self.dense3.dinputs)
@@ -493,21 +494,39 @@ class CNNMonitorDashboard:
             self.activation1.backward(self.dense2.dinputs)
             self.dense1.backward(self.activation1.dinputs)
 
-            # Optimize
+            # Optimize Parameters
             self.optimizer.pre_update_params()
             self.optimizer.update_params(self.dense1)
             self.optimizer.update_params(self.dense2)
             self.optimizer.update_params(self.dense3)
             self.optimizer.post_update_params()
 
+            # Append Metrics to Arrays
             self.loss_history.append(loss)
             self.accuracy_history.append(acc)
             self.grad_l1_history.append(np.linalg.norm(self.dense1.dweights))
             self.grad_l2_history.append(np.linalg.norm(self.dense2.dweights))
             self.grad_l3_history.append(np.linalg.norm(self.dense3.dweights))
 
-        # Update telemetry visuals cleanly
-        self._update_telemetry_ui(current_epoch_idx, loss, acc)
+        # Check if this specific batch iteration finished the entire process
+        if len(self.loss_history) >= self.target_epochs:
+            self.training_active = False
+            self.is_trained = True
+            self.btn_train.config(text="OPTIMIZATION COMPLETE", bg=COLOR_BLUE)
+            self.btn_inspect.config(state="normal")
+
+        # FIX: Send the absolute latest valid item from the recorded history
+        last_recorded_idx = len(self.loss_history) - 1
+        if last_recorded_idx >= 0:
+            self._update_telemetry_ui(
+                last_recorded_idx,
+                self.loss_history[-1],
+                self.accuracy_history[-1]
+            )
+
+        # Loop again if there are remaining steps
+        if self.training_active:
+            self.root.after(10, self.run_training_epoch_step)
 
         if self.training_active:
             self.root.after(10, self.run_training_epoch_step)
