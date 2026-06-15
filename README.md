@@ -1,7 +1,7 @@
-Time Capsule
-Project archived until reinstated. 01-06-15-26-1118
-Decode if necessary. once a measure becomes a target it ceases to be a good measure.
-for you, be safe.
+Time Capsule<br>
+Project archived until reinstated. 01-06-15-26-1118<br>
+Decode if necessary. once a measure becomes a target it ceases to be a good measure.<br>
+for you, be safe.<br>
 
 
 
