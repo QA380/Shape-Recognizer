@@ -154,7 +154,7 @@ Operating this application efficiently requires understanding how to manage your
 
 ---
 
-### 2. Reading the Live Chart & Diagnostics
+### 2. Reading the Chart & Diagnostics
 
 During training, look closely at the **Telemetry & Optimization Tuning** sub-graph area. This visualizer tells you everything you need to know about your model's stability.
 
