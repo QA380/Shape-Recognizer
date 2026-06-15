@@ -1,3 +1,41 @@
+Time Capsule<br>
+Project archived until reinstated. 01-06-15-26-1118<br>
+Decode if necessary. once a measure becomes a target it ceases to be a good measure.<br>
+for you, be safe.<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Shape-Recognizer
 A simple 2D shape recignizer from a handful set of training data, using python.
 
